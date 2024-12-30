@@ -1,3 +1,10 @@
+import static java.lang.reflect.Array.newInstance;
+import java.util.NoSuchElementException;
+import edu.grinnell.csc207.util.AssociativeArray;
+import edu.grinnell.csc207.util.KeyNotFoundException;
+import edu.grinnell.csc207.util.NullKeyException;
+import java.io.PrintWriter;
+
 /**
  * Creates a set of mappings of an AAC that has two levels,
  * one for categories and then within each category, it has
@@ -99,12 +106,16 @@ public class AACMappings implements AACPage {
 	 * Adds the mapping to the current category (or the default category if
 	 * that is the current category)
 	 * @param imageLoc the location of the image
-	 * @param text the text associated with the image
+	 * @param text the text that image should speak
 	 */
 	public void addItem(String imageLoc, String text) {
-		
+	// Add the image location and its associated text to the category's associative array
+	if (imageLoc == null || text == null) {
+		throw new IllegalArgumentException("Image location and text cannot be null.");
 	}
-
+	// Add the item to the associative array
+	this.items.set(imageLoc, text); // 'items' would be the AssociativeArray instance in AACCategory
+	}
 
 	/**
 	 * Gets the name of the current category
