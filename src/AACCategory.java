@@ -3,6 +3,7 @@ import edu.grinnell.csc207.util.AssociativeArray;
 import edu.grinnell.csc207.util.KeyNotFoundException;
 import edu.grinnell.csc207.util.NullKeyException;
 
+
 /**
  * Represents the mappings for a single category of items that should
  * be displayed.
@@ -13,10 +14,10 @@ import edu.grinnell.csc207.util.NullKeyException;
 public class AACCategory implements AACPage {
 
   // Name of the category
-  private String categoryName;
+  public String categoryName;
 
   // Associative array mapping image locations to text
-  private AssociativeArray<String, String> items;
+  public AssociativeArray<String, String> items;
 
   /**
    * Creates a new empty category with the given name.
