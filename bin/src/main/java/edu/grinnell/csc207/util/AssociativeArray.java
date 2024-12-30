@@ -194,7 +194,6 @@ public class AssociativeArray<K, V> {
   public int size() {
     return this.size;
   } // size()
-
   // +-----------------+---------------------------------------------
   // | Private Methods |
   // +-----------------+
