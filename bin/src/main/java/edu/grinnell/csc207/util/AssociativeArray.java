@@ -54,6 +54,16 @@ public class AssociativeArray<K, V> {
   // +------------------+--------------------------------------------
   // | Standard Methods |
   // +------------------+
+  
+  // Add javadocs
+  public K[] getKeys() {
+    @SuppressWarnings("unchecked")
+    K[] keys = (K[]) new Object[size]; // Create an array of type K
+    for (int i = 0; i < size; i++) {
+        keys[i] = pairs[i].key; // Add each key to the array
+    }
+    return keys;
+  }
 
   /**
    * Create a copy of this AssociativeArray.

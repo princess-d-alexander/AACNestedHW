@@ -9,7 +9,7 @@ package edu.grinnell.csc207.util;
  * @param <V>
  *   The type of the values.
  */
-class KVPair<K, V> {
+public class KVPair<K, V> {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
@@ -17,12 +17,12 @@ class KVPair<K, V> {
   /**
    * The key.
    */
-  K key;
+  public K key;  // Changed to public
 
   /**
    * The value.
    */
-  V val;
+  public V val;  // Changed to public
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -31,7 +31,7 @@ class KVPair<K, V> {
   /**
    * Create an empty key/value pair.
    */
-  KVPair() {
+  public KVPair() {
     this(null, null);
   } // KVPair()
 
@@ -43,7 +43,7 @@ class KVPair<K, V> {
    * @param pairValue
    *   The value of the new pair.
    */
-  KVPair(K pairKey, V pairValue) {
+  public KVPair(K pairKey, V pairValue) {
     this.key = pairKey;
     this.val = pairValue;
   } // KVPair(K,V)
@@ -75,4 +75,5 @@ class KVPair<K, V> {
   } // toString()
 
 } // class KVPair
+
 

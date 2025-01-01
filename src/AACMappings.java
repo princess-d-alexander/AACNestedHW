@@ -106,16 +106,12 @@ public class AACMappings implements AACPage {
 	 * Adds the mapping to the current category (or the default category if
 	 * that is the current category)
 	 * @param imageLoc the location of the image
-	 * @param text the text that image should speak
+	 * @param text the text associated with the image
 	 */
 	public void addItem(String imageLoc, String text) {
-	// Add the image location and its associated text to the category's associative array
-	if (imageLoc == null || text == null) {
-		throw new IllegalArgumentException("Image location and text cannot be null.");
+		
 	}
-	// Add the item to the associative array
-	this.items.set(imageLoc, text); // 'items' would be the AssociativeArray instance in AACCategory
-	}
+
 
 	/**
 	 * Gets the name of the current category
