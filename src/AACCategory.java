@@ -44,8 +44,6 @@ public class AACCategory implements AACPage {
       // Attempt to add the item to the associative array
       items.set(imageLoc, text); // Add to the associative array
     } catch (NullKeyException e) {
-      // Handle the exception. You can decide what to do here.
-      // For example, log the error or do nothing
       System.err.println("Error: Attempt to add item with a null key - " + e.getMessage());
     } // try/catch
   } // addItem
