@@ -102,7 +102,7 @@ public class AssociativeArray<K, V> {
    * @return an array containing all the keys
    */
   public K[] keys() {
-    K[] keyArray = (K[]) new Object[this.size];  // Using Object type and casting to K[]
+    K[] keyArray = (K[]) new Object[this.size]; // Not sure if this is a safe cast
     for (int i = 0; i < this.size; i++) {
         keyArray[i] = this.pairs[i].key;
     } // for
