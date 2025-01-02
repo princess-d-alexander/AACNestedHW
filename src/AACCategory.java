@@ -8,7 +8,7 @@ import edu.grinnell.csc207.util.NullKeyException;
  * Represents the mappings for a single category of items that should
  * be displayed.
  *
- * @author Catie Baker & YOUR NAME HERE
+ * @author Catie Baker & Princess Alexander
  *
  */
 public class AACCategory implements AACPage {
@@ -39,7 +39,7 @@ public class AACCategory implements AACPage {
   public void addItem(String imageLoc, String text) {
     if (imageLoc == null || text == null) {
       throw new IllegalArgumentException("Image location and text cannot be null.");
-    } //if
+    } // if
     try {
       // Attempt to add the item to the associative array
       items.set(imageLoc, text); // Add to the associative array
@@ -66,7 +66,7 @@ public class AACCategory implements AACPage {
     } // for
     return imageLocs;
   } // getImageLocs
-  
+    
   /**
    * Returns the name of the category.
    *
@@ -75,7 +75,7 @@ public class AACCategory implements AACPage {
   @Override
   public String getCategory() {
     return categoryName;
-  } 
+  } // getCategory
 
   /**
    * Returns the text associated with the given image in this category.
@@ -106,4 +106,4 @@ public class AACCategory implements AACPage {
   public boolean hasImage(String imageLoc) {
     return items.hasKey(imageLoc);
   } // hasImage
-} // AACPage
+} // AACCategory

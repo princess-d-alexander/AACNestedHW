@@ -54,18 +54,9 @@ public class AssociativeArray<K, V> {
   // +------------------+--------------------------------------------
   // | Standard Methods |
   // +------------------+
-  
-  // Add javadocs
-  public K[] getKeys() {
-    @SuppressWarnings("unchecked")
-    K[] keys = (K[]) new Object[size]; // Create an array of type K
-    for (int i = 0; i < size; i++) {
-        keys[i] = pairs[i].key; // Add each key to the array
-    }
-    return keys;
-  }
 
   /**
+   *
    * Create a copy of this AssociativeArray.
    *
    * @return a new copy of the array
@@ -103,6 +94,20 @@ public class AssociativeArray<K, V> {
   // +----------------+----------------------------------------------
   // | Public Methods |
   // +----------------+
+
+  /**
+   * Returns an array of all keys in the associative array.
+   * Added this to the class to make getImageLocs method to work in AACCategory
+   *
+   * @return an array containing all the keys
+   */
+  public K[] keys() {
+    K[] keyArray = (K[]) new Object[this.size];  // Using Object type and casting to K[]
+    for (int i = 0; i < this.size; i++) {
+        keyArray[i] = this.pairs[i].key;
+    } // for
+    return keyArray;
+  } // keys
 
   /**
    * Set the value associated with key to value. Future calls to
