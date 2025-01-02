@@ -64,16 +64,20 @@ public class AACCategory implements AACPage {
     } // for
     return imageLocs;
   } // getImageLocs
-    
+
   /**
-   * Returns the name of the category.
-   *
-   * @return the name of the category.
-   */
+  * Returns the name of the category.
+  *
+  * @return The name of the category.
+  */
   @Override
   public String getCategory() {
+    if (categoryName == null || categoryName.trim().isEmpty()) {
+      return "Unnamed Category";  // if no category name is set
+    } // if
     return categoryName;
-  } // getCategory
+  } // getCategory()
+
 
   /**
    * Returns the text associated with the given image in this category.
