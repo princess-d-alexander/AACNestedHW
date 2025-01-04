@@ -49,7 +49,7 @@ public class AAC implements ActionListener {
 	 *                 will be in the AAC
 	 */
 	public AAC(String filename) {
-		this.page = new AACCategory("test");
+		// this.page = new AACCategory("test");
 		this.page = new AACMappings(filename);
 		this.images = this.page.getImageLocs();
 		this.startIndex = 0;

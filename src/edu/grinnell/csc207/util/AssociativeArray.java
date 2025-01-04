@@ -95,19 +95,20 @@ public class AssociativeArray<K, V> {
   // | Public Methods |
   // +----------------+
 
-  /**
+  /** 
    * Returns an array of all keys in the associative array.
-   * Added this to the class to make getImageLocs method to work in AACCategory
-   *
+   * 
    * @return an array containing all the keys
    */
-  public K[] keys() {
-    K[] keyArray = (K[]) new Object[this.size]; // Not sure if this is a safe cast
-    for (int i = 0; i < this.size; i++) {
-        keyArray[i] = this.pairs[i].key;
-    } // for
-    return keyArray;
+  public String[] keys() {
+      String[] keyArray = new String[this.size]; // Create an array of Strings
+      int index = 0;
+      for (int i = 0; i < this.size; i++) {
+          keyArray[index++] = (String) this.pairs[i].key;  // Cast keys to String
+      }
+      return keyArray;
   } // keys
+
 
   /**
    * Set the value associated with key to value. Future calls to
@@ -246,3 +247,31 @@ public class AssociativeArray<K, V> {
   } // find(K)
 
 } // class AssociativeArray
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // /**
+  //  * Returns an array of all keys in the associative array.
+  //  * Added this to the class to make getImageLocs method to work in AACCategory
+  //  *
+  //  * @return an array containing all the keys
+  //  */
+  // public K[] keys() {
+  //   K[] keyArray = (K[]) new Object[this.size]; // Not sure if this is a safe cast
+  //   for (int i = 0; i < this.size; i++) {
+  //       keyArray[i] = this.pairs[i].key;
+  //   } // for
+  //   return keyArray;
+  // } // keys

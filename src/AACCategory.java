@@ -3,7 +3,6 @@ import edu.grinnell.csc207.util.AssociativeArray;
 import edu.grinnell.csc207.util.KeyNotFoundException;
 import edu.grinnell.csc207.util.NullKeyException;
 
-
 /**
  * Represents the mappings for a single category of items that should
  * be displayed.
@@ -25,9 +24,10 @@ public class AACCategory implements AACPage {
    * @param name the name of the category
    */
   public AACCategory(String name) {
-    this.categoryName = name;
+    this.categoryName = (name == null || name.trim().isEmpty()) ? "Unnamed Category" : name;
     this.items = new AssociativeArray<>();
   } // AACCategory
+
 
   /**
    * Adds the image location and text pairing to the category.
@@ -48,21 +48,21 @@ public class AACCategory implements AACPage {
     } // try/catch
   } // addItem
 
-  /**
+  /** 
    * Returns an array of all the images in the category.
-   *
+   * 
    * @return the array of image locations; if there are no images,
-   *         it should return an empty array.
+   * it should return an empty array.
    */
   @Override
   public String[] getImageLocs() {
-    String[] imageLocs = new String[items.size()];
-    int index = 0;
-    // Retrieve all keys (image locations)
-    for (String key : items.keys()) {
-      imageLocs[index++] = key;
-    } // for
-    return imageLocs;
+      String[] imageLocs = new String[items.size()]; // Create an array to hold image locations
+      int index = 0;
+      // Retrieve all keys (image locations) for the items and store in the array
+      for (String key : items.keys()) {
+          imageLocs[index++] = key; // Assign each key to imageLocs
+      }
+      return imageLocs;
   } // getImageLocs
 
   /**
@@ -72,12 +72,8 @@ public class AACCategory implements AACPage {
   */
   @Override
   public String getCategory() {
-    if (categoryName == null || categoryName.trim().isEmpty()) {
-      return "Unnamed Category";  // if no category name is set
-    } // if
-    return categoryName;
+    return (categoryName != null && !categoryName.trim().isEmpty()) ? categoryName : "Unnamed Category";
   } // getCategory()
-
 
   /**
    * Returns the text associated with the given image in this category.

@@ -29,7 +29,8 @@ public class AACMappings implements AACPage {
   private AssociativeArray<String, AssociativeArray<String, String>> categories;
 
   /** The current selected category */
-  private String currentCategory;
+  private String currentCategory = ""; // Default to empty string
+
 
   /**
    * In short: Constructs an AACMappings object using the file name.
@@ -57,7 +58,7 @@ public class AACMappings implements AACPage {
    */
   public AACMappings(String filename) {
     categories = new AssociativeArray<String, AssociativeArray<String, String>>();
-    currentCategory = null;
+    currentCategory = "";
 
     try (Scanner scanner = new Scanner(new File(filename))) {
       String category = null;
@@ -66,25 +67,28 @@ public class AACMappings implements AACPage {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine().trim();
         if (line.startsWith("img/")) {
-          String[] parts = line.split(" ", 2);
-          if (line.startsWith(">")) {
-            String imageLoc = parts[0].substring(1);
-            String text = parts[1];
-            if (imageTextMap != null) {
-              imageTextMap.set(imageLoc, text);
-            } // if
-          } else {
-            if (category != null && imageTextMap != null) {
-              categories.set(category, imageTextMap);
+            String[] parts = line.split(" ", 2);
+            if (line.startsWith(">")) {
+                // This is an image item line
+                String imageLoc = parts[0].substring(1);
+                String text = parts[1];
+                if (imageTextMap != null) {
+                    imageTextMap.set(imageLoc, text);
+                }
+            } else {
+                // This is a new category line
+                if (category != null && imageTextMap != null) {
+                    categories.set(category, imageTextMap);
+                }
+                category = parts[1];
+                imageTextMap = new AssociativeArray<String, String>();
             }
-            category = parts[1];
-            imageTextMap = new AssociativeArray<String, String>();
-          } // else/if
-        } // if
-      } // while
-      if (category != null && imageTextMap != null) {
+        }
+    }
+    // Final check to store the last category
+    if (category != null && imageTextMap != null) {
         categories.set(category, imageTextMap);
-      } // if
+    }
     } catch (Exception e) {
       e.printStackTrace();
     } // catch 
@@ -99,26 +103,23 @@ public class AACMappings implements AACPage {
   @Override
   public void addItem(String imageLoc, String text) {
     if (imageLoc == null || text == null) {
-	    throw new IllegalArgumentException("Image location and text cannot be null.");
-	  } // if
+        throw new IllegalArgumentException("Image location and text cannot be null.");
+    } // if
+  
+    if (currentCategory == null || currentCategory.trim().isEmpty()) {
+        throw new IllegalStateException("Current category is not set.");
+    }
 
     try {
-      // Check if currentCategory exists in categories
-      if (categories.hasKey(currentCategory)) {
-      // Attempting to add the item to the associative array for the current category
-      categories.get(currentCategory).set(imageLoc, text); 
-      } else {
-      // Handling the case when currentCategory is not found
-      System.err.println("Error: Current category not found - " + currentCategory);
-      } // else
-    } catch (NullKeyException e) {
-      // Handling the exception.
-      System.err.println("Error: Attempt to add item with a null key - " + e.getMessage());
-    } catch (KeyNotFoundException e) {
-      // Handle the case where currentCategory is not found in categories
-      System.err.println("Error: Category not found - " + e.getMessage());
-    } // try
-  } // addItem
+        if (categories.hasKey(currentCategory)) {
+            categories.get(currentCategory).set(imageLoc, text);
+        } else {
+            System.err.println("Error: Current category not found - " + currentCategory);
+        }
+    } catch (NullKeyException | KeyNotFoundException e) {
+        System.err.println("Error: " + e.getMessage());
+    }
+  }
 
   /**
    * Retrieves all image locations for the current category.
@@ -127,31 +128,36 @@ public class AACMappings implements AACPage {
    */
   @Override
   public String[] getImageLocs() {
-    try {
-      String[] imageLocs = new String[categories.get(currentCategory).size()];
-      int index = 0;
-
-      // Retrieve all keys (image locations)
-      for (String key : categories.get(currentCategory).keys()) {
-        imageLocs[index++] = key;
-      } // for
-      return imageLocs;
-    } catch (Exception e) {
-      // In case of any exception (e.g., null pointer or other unexpected issues)
-      System.err.println("Error while retrieving image locations: " + e.getMessage());
-      return new String[0];  // Return an empty array in case of error
-    } // catch
-  } // getImageLocs
+      try {
+          if (categories.hasKey(currentCategory)) {
+              AssociativeArray<String, String> currentCategoryItems = categories.get(currentCategory);
+              String[] imageLocs = new String[currentCategoryItems.size()];
+              int index = 0;
+  
+              for (String key : currentCategoryItems.keys()) {
+                  imageLocs[index++] = key;
+              }
+              return imageLocs;
+          } else {
+              return new String[0]; // Return empty array if category is not found
+          }
+      } catch (KeyNotFoundException e) {
+          System.err.println("Error retrieving image locations: " + e.getMessage());
+          return new String[0];
+      }
+  }  
 
   /**
    * Gets the name of the current category.
    *
    * @return The name of the current category
    */
-  @Override
   public String getCategory() {
+    if (currentCategory == null || currentCategory.trim().isEmpty()) {
+        return "Unnamed Category"; 
+    }
     return currentCategory;
-  } // getCategory
+  }
 
   /**
    * Selects a specific image from the current category.
@@ -189,15 +195,17 @@ public class AACMappings implements AACPage {
     } // try
   } // hasImage
 
-
   /**
    * Resets the category to the first available category in the list.
    */
   public void reset() {
     if (categories.size() > 0) {
-      currentCategory = categories.keys()[0];
-    } // if
-  } // reset
+        currentCategory = categories.keys()[0];  // Select the first available category
+    } else {
+        currentCategory = "";  // Default to empty if no categories are available, but should handle this better
+        throw new IllegalStateException("No categories available to reset.");
+    }
+  }
 
   /**
    * Writes the current categories and their corresponding image-text mappings to a file.
